@@ -1,0 +1,28 @@
+requirejs:
+    web_root: web
+    target_dir: js
+    src_dir: ~
+    main_config_ile: javascript/config.js
+    base_url: javascript
+    name: main
+    out: site.min.js
+    remove_combined: true
+    find_nested_dependencies: true
+
+tasks:
+    # Add the requirejs build trigger
+    build:
+        post: @_requirejs.build
+
+    # Trigger used to build the requirejs in the build process
+    _requirejs.build:
+        set:
+            _root: build.dir
+        do: @requirejs.update
+
+    # Update the requirejs dirs in the current working dir
+    requirejs.update:
+        help: "Compile requirejs"
+        set:
+            _root:  ? cwd
+        do: $(requirejs.cmd(_root))
