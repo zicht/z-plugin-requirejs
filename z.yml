@@ -1,13 +1,13 @@
 requirejs:
-    web_root: web
-    target_dir: js
-    src_dir: ~
-    main_config_file: javascript/config.js
-    base_url: javascript
-    name: main
-    out: site.min.js
-    remove_combined: true
-    find_nested_dependencies: true
+#    web_root: web
+#    target_dir: js
+#    src_dir: ~
+#    main_config_file: javascript/config.js
+#    base_url: javascript
+#    name: main
+#    out: site.min.js
+#    remove_combined: true
+#    find_nested_dependencies: true
 
 tasks:
     # Add the requirejs build trigger

@@ -37,31 +37,31 @@ class Plugin extends BasePlugin
 
         $container->method('requirejs.cmd', function($container, $root) use($config) {
             $out = rtrim($root, '/')
-                . '/' . $config('web_root')
-                . '/' . $config('target_dir')
-                . '/' . $config('out')
+                . '/' . $config['web_root']
+                . '/' . $config['target_dir']
+                . '/' . $config['out']
             ;
 
             $baseUrl = rtrim($root, '/')
-                . '/' . $config('web_root')
-                . '/' . $config('src_dir')
-                . '/' . $config('base_url')
+                . '/' . $config['web_root']
+                . '/' . $config['src_dir']
+                . '/' . $config['base_url']
             ;
 
             $mainConfigFile = rtrim($root, '/')
-                . '/' . $config('web_root')
-                . '/' . $config('src_dir')
-                . '/' . $config('main_config_file')
+                . '/' . $config['web_root']
+                . '/' . $config['src_dir']
+                . '/' . $config['main_config_file']
             ;
 
             return sprintf(
                 'r.js -o mainConfigFile=%s baseUrl=%s name=%s out=%s removeCombined=%s findNestedDependencies=%s',
                 escapeshellcmd($mainConfigFile),
                 escapeshellcmd($baseUrl),
-                escapeshellcmd($config('name')),
+                escapeshellcmd($config['name']),
                 escapeshellcmd($out),
-                ($config('remove_combined')) ? 'true' : 'false',
-                ($config('find_nested_dependencies')) ? 'true' : 'false'
+                ($config['remove_combined']) ? 'true' : 'false',
+                ($config['find_nested_dependencies']) ? 'true' : 'false'
             );
         });
     }
