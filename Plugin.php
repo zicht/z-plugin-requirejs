@@ -25,15 +25,7 @@ class Plugin extends BasePlugin
             ->children()
                 ->arrayNode('requirejs')
                     ->children()
-                        ->scalarNode('web_root')->defaultValue('web')->end()
-                        ->scalarNode('target_dir')->defaultValue('js')->end()
-                        ->scalarNode('src_dir')->isRequired()->end()
-                        ->scalarNode('main_config_ile')->defaultValue('javascript/config.js')->end()
-                        ->scalarNode('base_url')->defaultValue('javascript')->end()
-                        ->scalarNode('name')->defaultValue('name')->end()
-                        ->scalarNode('out')->defaultValue('site.min.js')->end()
-                        ->scalarNode('remove_combined')->defaultValue(true)->end()
-                        ->scalarNode('find_nested_dependencies')->defaultValue('true')->end()
+                        ->scalarNode('config')->isRequired()->end()
                     ->end()
                 ->end()
             ->end();
@@ -41,33 +33,35 @@ class Plugin extends BasePlugin
 
     public function setContainer(Container $container)
     {
-        $container->method('requirejs.cmd', function($container, $root) {
+        $config = \Symfony\Component\Yaml\Yaml::parse($container->resolve('requirejs.config'));
+
+        $container->method('requirejs.cmd', function($container, $root) use($config) {
             $out = rtrim($root, '/')
-                . '/' . $container->resolve('requirejs.web_root')
-                . '/' . $container->resolve('requirejs.target_dir')
-                . '/' . $container->resolve('requirejs.out')
+                . '/' . $config('web_root')
+                . '/' . $config('target_dir')
+                . '/' . $config('out')
             ;
 
             $baseUrl = rtrim($root, '/')
-                . '/' . $container->resolve('requirejs.web_root')
-                . '/' . $container->resolve('requirejs.src_dir')
-                . '/' . $container->resolve('requirejs.base_url')
+                . '/' . $config('web_root')
+                . '/' . $config('src_dir')
+                . '/' . $config('base_url')
             ;
 
             $mainConfigFile = rtrim($root, '/')
-                . '/' . $container->resolve('requirejs.web_root')
-                . '/' . $container->resolve('requirejs.src_dir')
-                . '/' . $container->resolve('requirejs.main_config_ile')
+                . '/' . $config('web_root')
+                . '/' . $config('src_dir')
+                . '/' . $config('main_config_file')
             ;
 
             return sprintf(
                 'r.js -o mainConfigFile=%s baseUrl=%s name=%s out=%s removeCombined=%s findNestedDependencies=%s',
                 escapeshellcmd($mainConfigFile),
                 escapeshellcmd($baseUrl),
-                escapeshellcmd($container->resolve('requirejs.name')),
+                escapeshellcmd($config('name')),
                 escapeshellcmd($out),
-                ($container->resolve('requirejs.remove_combined')) ? 'true' : 'false',
-                ($container->resolve('requirejs.find_nested_dependencies')) ? 'true' : 'false'
+                ($config('remove_combined')) ? 'true' : 'false',
+                ($config('find_nested_dependencies')) ? 'true' : 'false'
             );
         });
     }
