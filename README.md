@@ -2,6 +2,6 @@
 
 Include requirejs build step in the build
 
-# Maintainer(s)
-* Joppe Aarts <joppe@zicht.nl>
-
+# Maintainers
+* Michael Roterman <michael@zicht.nl>
+* Boudewijn Schoon <boudewijn@zicht.nl>
