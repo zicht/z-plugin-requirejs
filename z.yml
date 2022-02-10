@@ -12,13 +12,13 @@ requirejs:
 tasks:
     # Add the requirejs build trigger
     build:
-        post: @_requirejs.build
+        post: '@_requirejs.build'
 
     # Trigger used to build the requirejs in the build process
     _requirejs.build:
         set:
             _root: build.dir
-        do: @requirejs.update
+        do: '@requirejs.update'
 
     # Update the requirejs dirs in the current working dir
     requirejs.update:
